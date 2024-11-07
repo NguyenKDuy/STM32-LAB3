@@ -3,3 +3,7 @@ traffic_light.c:20:6:set_red0_green1	8	static
 traffic_light.c:28:6:set_red0_amber1	8	static
 traffic_light.c:36:6:set_green0_red1	8	static
 traffic_light.c:44:6:set_amber0_red1	8	static
+traffic_light.c:55:6:setallRed	8	static
+traffic_light.c:63:6:setallGreen	8	static
+traffic_light.c:71:6:setallAmber	8	static
+traffic_light.c:79:6:setallOff	8	static

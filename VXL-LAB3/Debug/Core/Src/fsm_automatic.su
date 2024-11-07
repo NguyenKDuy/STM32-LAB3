@@ -1,7 +1,3 @@
-fsm_automatic.c:18:6:fsm_automatic_run	8	static
-fsm_automatic.c:141:6:GreenTime	4	static
-fsm_automatic.c:144:6:RedTime	4	static
-fsm_automatic.c:147:6:AmberTime	4	static
-fsm_automatic.c:151:7:setGreenTime	16	static
-fsm_automatic.c:154:7:setRedTime	16	static
-fsm_automatic.c:157:7:setAmberTime	16	static
+fsm_automatic.c:15:6:setCount	16	static
+fsm_automatic.c:19:5:getCount	16	static
+fsm_automatic.c:26:6:fsm_automatic_run	16	static

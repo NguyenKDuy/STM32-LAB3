@@ -12,6 +12,6 @@ extern int led_buffer[4];
 void display7SEG(int num);
 void led7seg_run();
 void update7SEG(int index);
-void countdown();
 void setBuffer(int led0, int led1);
+void countAgain();
 #endif /* INC_DISPLAY7SEG_H_ */

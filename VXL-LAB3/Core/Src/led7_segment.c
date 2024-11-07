@@ -143,6 +143,13 @@ void update7SEG (int index){
 		HAL_GPIO_WritePin(enb3_GPIO_Port, enb3_Pin, RESET);
 		display7SEG(led_buffer[3]);
 		break;
+
+	default:
+		HAL_GPIO_WritePin(enb0_GPIO_Port, enb0_Pin, SET);
+		HAL_GPIO_WritePin(enb1_GPIO_Port, enb1_Pin, SET);
+		HAL_GPIO_WritePin(enb2_GPIO_Port, enb2_Pin, SET);
+		HAL_GPIO_WritePin(enb3_GPIO_Port, enb3_Pin, SET);
+		break;
 	}
 }
 //Run every 250ms
@@ -151,7 +158,6 @@ void led7seg_run() {
 			index_led = 0;
 		}
 		update7SEG(index_led++);
-
 }
 
 void setBuffer(int led0, int led1) {
@@ -160,37 +166,8 @@ void setBuffer(int led0, int led1) {
 	led_buffer[2] = led1/10;
 	led_buffer[3] = led1%10;
 }
-//Run every second
-void countdown() {
-	if (led_buffer[0] > 0){
-		if (led_buffer[1] > 0) {
-			led_buffer[1]--;
-		}
-		else {
-			led_buffer[0]--;
-			led_buffer[1] = 9;
-		}
-	}
-	else {
-		if (led_buffer[1] > 1) {
-			led_buffer[1]--;
-		}
-	}
 
-	if (led_buffer[2] > 0){
-			if (led_buffer[3] > 0) {
-				led_buffer[3]--;
-			}
-			else {
-				led_buffer[2]--;
-				led_buffer[3] = 9;
-
-			}
-		}
-		else {
-			if (led_buffer[3] > 1) {
-				led_buffer[3]--;
-			}
-		}
-
+void countAgain() {
+	index_led = 0;
 }
+//Run every second

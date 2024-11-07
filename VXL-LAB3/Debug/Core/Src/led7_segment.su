@@ -1,5 +1,5 @@
 led7_segment.c:13:6:display7SEG	16	static
 led7_segment.c:116:6:update7SEG	16	static
-led7_segment.c:149:6:led7seg_run	8	static
-led7_segment.c:157:6:setBuffer	16	static
-led7_segment.c:164:6:countdown	4	static
+led7_segment.c:156:6:led7seg_run	8	static
+led7_segment.c:163:6:setBuffer	16	static
+led7_segment.c:170:6:countAgain	4	static

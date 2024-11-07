@@ -1,1 +1,7 @@
-fsm_settings_run.c:9:6:fsm_settings_run	8	static
+fsm_settings_run.c:18:5:GreenTime	4	static
+fsm_settings_run.c:21:5:RedTime	4	static
+fsm_settings_run.c:24:5:AmberTime	4	static
+fsm_settings_run.c:28:6:setGreenTime	16	static
+fsm_settings_run.c:31:6:setRedTime	16	static
+fsm_settings_run.c:34:6:setAmberTime	16	static
+fsm_settings_run.c:38:6:fsm_settings_run	8	static

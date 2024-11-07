@@ -7,12 +7,20 @@
 
 
 #include "fsm_automatic.h"
+#include "fsm_settings.h"
 
-int greentime = 5;
-int redtime = 11;
-int ambertime = 6;
 int count0, count1;
-int led_buffer[4] = {1, 2, 3, 4};
+int led_buffer[4];
+
+void setCount (int index, int value) {
+	if (index == 0) count0 = value;
+	if (index == 1)	count1 = value;
+}
+int getCount (int index) {
+	if (index ==0) return count0;
+	if (index ==1) return count1;
+	return -1;
+}
 
 
 void fsm_automatic_run() {
@@ -22,10 +30,10 @@ void fsm_automatic_run() {
 		set_off0_off1();
 		setTimer(1,1250);
 		setTimer(2,250);
-		count0 = redtime;								//changable
-		count1 = greentime;
+		count0 = RedTime();								//changable
+		count1 = GreenTime();
 		status = AUTO_RED_GREEN;
-		setBuffer(redtime, greentime);
+		setBuffer(RedTime(), GreenTime());
 		break;
 	case AUTO_RED_GREEN:
 		set_red0_green1();
@@ -37,8 +45,8 @@ void fsm_automatic_run() {
 			setBuffer(count0, count1);
 			if (count1 == 0) {
 				status = AUTO_RED_YELLOW;
-				count1 = ambertime;
-				count0 = ambertime;
+				count1 = AmberTime();
+				count0 = AmberTime();
 				setBuffer(count0, count1);
 			}
 //			countdown();
@@ -63,8 +71,8 @@ void fsm_automatic_run() {
 			setBuffer(count0, count1);
 			if (count1 == 0) {
 				status = AUTO_GREEN_RED;
-				count0 = greentime;						//changable
-				count1 = redtime;
+				count0 = GreenTime();						//changable
+				count1 = RedTime();
 				setBuffer(count0, count1);
 
 			}
@@ -90,7 +98,7 @@ void fsm_automatic_run() {
 			setBuffer(count0, count1);
 			if (count0 == 0) {
 				status = AUTO_YELLOW_RED;
-				count0 = ambertime;						//changable
+				count0 = AmberTime();						//changable
 				setBuffer(count0, count1);
 			}
 //			countdown();
@@ -115,8 +123,8 @@ void fsm_automatic_run() {
 			setBuffer(count0, count1);
 			if (count0 == 0) {
 				status = AUTO_RED_GREEN;
-				count1 = greentime;						//changable
-				count0 = redtime;
+				count1 = GreenTime();						//changable
+				count0 = RedTime();
 				setBuffer(count0, count1);
 			}
 //			countdown();
@@ -138,23 +146,4 @@ void fsm_automatic_run() {
 
 }
 
-	int GreenTime() {
-		return greentime;
-	}
-	int RedTime() {
-		return redtime;
-	}
-	int AmberTime() {
-		return ambertime;
-	}
-
-	void setGreenTime(int value) {
-		greentime = value;
-	}
-	void setRedTime (int value) {
-		redtime = value;
-	}
-	void setAmberTime(int value){
-		ambertime = value;
-	}
 

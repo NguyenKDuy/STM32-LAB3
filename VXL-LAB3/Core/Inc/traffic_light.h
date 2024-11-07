@@ -15,4 +15,9 @@ void set_red0_amber1();
 void set_green0_red1();
 void set_amber0_red1();
 
+
+void setallRed();
+void setallGreen();
+void setallAmber();
+void setallOff();
 #endif /* INC_TRAFFIC_LIGHT_H_ */
