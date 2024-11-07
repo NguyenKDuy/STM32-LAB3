@@ -1,0 +1,4 @@
+led7_segment.c:14:6:display7SEG	16	static
+led7_segment.c:117:6:update7SEG	16	static
+led7_segment.c:150:6:led7seg_run	8	static
+led7_segment.c:158:6:countdown	4	static
