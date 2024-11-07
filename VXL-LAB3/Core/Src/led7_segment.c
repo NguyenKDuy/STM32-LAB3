@@ -10,7 +10,6 @@
 const int MAX_LED = 4;
 int index_led = 0;
 
-int led_buffer[4] = {1, 2, 3, 4};
 void display7SEG(int num){
 	switch (num) {
 	case 0:
@@ -153,6 +152,13 @@ void led7seg_run() {
 		}
 		update7SEG(index_led++);
 
+}
+
+void setBuffer(int led0, int led1) {
+	led_buffer[0] = led0/10;
+	led_buffer[1] = led0%10;
+	led_buffer[2] = led1/10;
+	led_buffer[3] = led1%10;
 }
 //Run every second
 void countdown() {
