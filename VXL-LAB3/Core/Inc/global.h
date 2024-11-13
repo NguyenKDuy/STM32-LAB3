@@ -13,6 +13,7 @@
 #include <main.h>
 #include <led7_segment.h>
 #include "traffic_light.h"
+#include <scheduler.h>
 extern int status;
 
 #define MODE0 1

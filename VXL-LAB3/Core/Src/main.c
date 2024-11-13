@@ -26,6 +26,7 @@
 #include <fsm_automatic.h>
 #include <fsm_manual.h>
 #include <fsm_settings.h>
+#include <scheduler.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -98,17 +99,9 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer(0, 1000);
-  status = MODE0;
   while (1)
   {
-	  if (getFlag(0)) {
-		  setTimer(0,1000);
-		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
-	  }
-	  fsm_manual_run();
-	  fsm_settings_run();
-	  fsm_automatic_run();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -249,8 +242,7 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	timerRun();
-	getKeyInput();
+	SCH_Update();
 }
 
 /* USER CODE END 4 */
