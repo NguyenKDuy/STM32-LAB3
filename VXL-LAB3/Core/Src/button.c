@@ -7,6 +7,7 @@
 
 #include "button.h"
 
+
 int KeyReg0[NUM_BUT] = {[0 ... NUM_BUT-1] = NORMAL};
 int KeyReg1[NUM_BUT] = {[0 ... NUM_BUT-1] = NORMAL};
 int KeyReg2[NUM_BUT] = {[0 ... NUM_BUT-1] = NORMAL};
@@ -38,7 +39,6 @@ void getKeyInput(){
 			}
 		}
 	}
-
 }
 int isKeyPressed(int index) {
 	if (index <NUM_BUT) {

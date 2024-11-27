@@ -5,6 +5,7 @@
  *      Author: My Laptop
  */
 #include "main.h"
+#include "global.h"
 #ifndef INC_BUTTON_H_
 #define INC_BUTTON_H_
 

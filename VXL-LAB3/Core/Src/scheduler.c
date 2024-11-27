@@ -66,6 +66,15 @@ void SCH_Add_Task(void(*pFunction)(), uint32_t DELAY, uint32_t PERIOD) {
 		SCH_tasks_G[Index].Runme = 0;
 		SCH_tasks_G[Index].TaskID = Index;
 	}
-
 }
+
+void SCH_Delete_Short_Task(void) {
+	unsigned char i;
+	for (i = 0; i < SCH_MAX_TASK; i++) {
+		if (SCH_tasks_G[i].Period == 0 && SCH_tasks_G[i].Delay != 0) {
+			SCH_Delete_Task(i);
+		}
+	}
+}
+
 

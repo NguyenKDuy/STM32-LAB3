@@ -8,13 +8,19 @@
 
 #include "fsm_automatic.h"
 #include "fsm_settings.h"
+#include "fsm_manual.h"
 
 int count0, count1;
 int led_buffer[4];
+int second = 0;
 
 void setCount (int index, int value) {
 	if (index == 0) count0 = value;
 	if (index == 1)	count1 = value;
+}
+void minusCount(){
+	count0--;
+	count1--;
 }
 int getCount (int index) {
 	if (index ==0) return count0;
@@ -22,128 +28,120 @@ int getCount (int index) {
 	return -1;
 }
 
+void fsm_INIT() {
+	status = MODE0;
+	set_off0_off1();
+	count0 = RedTime();
+	count1 = GreenTime();
+	setBuffer(RedTime(), GreenTime());
+	if (second < 1) {
+		SCH_Add_Task(fsm_INIT, 250, 0);
+		second++;
+	}
+	else {
+		second = 0;
+		SCH_Add_Task(fsm_AUTO_RED_GREEN, 250, 0);
+	}
+}
 
-void fsm_automatic_run() {
-	switch(status){
-	case MODE0:
-		//TODO:
-		set_off0_off1();
-		setTimer(1,1250);
-		setTimer(2,250);
-		count0 = RedTime();								//changable
-		count1 = GreenTime();
-		status = AUTO_RED_GREEN;
-		setBuffer(RedTime(), GreenTime());
-		break;
-	case AUTO_RED_GREEN:
-		set_red0_green1();
-		//auto switch to the next light if finish count
-		if (getFlag(1) == 1) {
-			setTimer(1, 1000);
-			count0--;
-			count1--;
+void fsm_AUTO_RED_GREEN () {
+	led7seg_run();
+	set_red0_green1();
+	status = AUTO_RED_GREEN;
+	if (second < 3) {
+			SCH_Add_Task(fsm_AUTO_RED_GREEN, 250, 0);
+			second++;
+	}
+	else {
+		second = 0;
+		minusCount();
+		setBuffer(count0, count1);
+		if (count1 == 0) {
+			SCH_Add_Task(fsm_AUTO_RED_YELLOW, 250, 0);
+			count1 = AmberTime();
+			count0 = AmberTime();
 			setBuffer(count0, count1);
-			if (count1 == 0) {
-				status = AUTO_RED_YELLOW;
-				count1 = AmberTime();
-				count0 = AmberTime();
-				setBuffer(count0, count1);
-			}
-//			countdown();
-		}
-		if (getFlag(2)) {
-			setTimer(2,250);
-			led7seg_run();
-		}
-		//handle mode manual
-		if (isKeyPressed(0)) {
-			status = MAN_RED_GREEN;
-			setTimer(1, 10000);
-		}
-		break;
-	case AUTO_RED_YELLOW:
-		set_red0_amber1();
-		//auto switch to the next light if finish count
-		if (getFlag(1) == 1) {
-			setTimer(1, 1000);
-			count0--;
-			count1--;
-			setBuffer(count0, count1);
-			if (count1 == 0) {
-				status = AUTO_GREEN_RED;
-				count0 = GreenTime();						//changable
-				count1 = RedTime();
-				setBuffer(count0, count1);
 
-			}
-//			countdown();
 		}
-		if (getFlag(2)) {
-			setTimer(2,250);
-			led7seg_run();
+		else {
+			SCH_Add_Task(fsm_AUTO_RED_GREEN, 250, 0);
 		}
-		//handle mode manual
-		if (isKeyPressed(0)) {
-			setTimer(1, 10000);
-			status = MAN_RED_YELLOW;
-		}
-		break;
-	case AUTO_GREEN_RED:
-		set_green0_red1();
-		//auto switch to the next light if finish count
-		if (getFlag(1) == 1) {
-			setTimer(1, 1000);
-			count0--;
-			count1--;
+	}
+}
+
+void fsm_AUTO_RED_YELLOW () {
+	set_red0_amber1();
+	led7seg_run();
+	status = AUTO_RED_YELLOW;
+	if (second < 3) {
+			SCH_Add_Task(fsm_AUTO_RED_YELLOW, 250, 0);
+			second++;
+	}
+	else {
+		second = 0;
+		minusCount();
+		setBuffer(count0, count1);
+		if (count1 == 0) {
+			SCH_Add_Task(fsm_AUTO_GREEN_RED, 250, 0);
+			count0 = GreenTime();
+			count1 = RedTime();
 			setBuffer(count0, count1);
-			if (count0 == 0) {
-				status = AUTO_YELLOW_RED;
-				count0 = AmberTime();						//changable
-				setBuffer(count0, count1);
-			}
-//			countdown();
+
 		}
-		if (getFlag(2)) {
-			setTimer(2,250);
-			led7seg_run();
+		else {
+			SCH_Add_Task(fsm_AUTO_RED_YELLOW, 250, 0);
 		}
-		//handle mode manual
-		if (isKeyPressed(0)) {
-			setTimer(1, 10000);
-			status = MAN_GREEN_RED;
-		}
-		break;
-	case AUTO_YELLOW_RED:
-		set_amber0_red1();
-		//auto switch to the next light if finish count
-		if (getFlag(1) == 1) {
-			setTimer(1, 1000);
-			count0--;
-			count1--;
+	}
+}
+
+void fsm_AUTO_GREEN_RED () {
+	set_green0_red1();
+	led7seg_run();
+	status = AUTO_GREEN_RED;
+	if (second < 3) {
+			SCH_Add_Task(fsm_AUTO_GREEN_RED, 250, 0);
+			second++;
+	}
+	else {
+		second = 0;
+		minusCount();
+		setBuffer(count0, count1);
+		if (count0 == 0) {
+			SCH_Add_Task(fsm_AUTO_YELLOW_RED, 250, 0);
+			count0 = AmberTime();
+			count1 = AmberTime();
 			setBuffer(count0, count1);
-			if (count0 == 0) {
-				status = AUTO_RED_GREEN;
-				count1 = GreenTime();						//changable
-				count0 = RedTime();
-				setBuffer(count0, count1);
-			}
-//			countdown();
 		}
-		if (getFlag(2)) {
-			setTimer(2,250);
-			led7seg_run();
+		else {
+			SCH_Add_Task(fsm_AUTO_GREEN_RED, 250, 0);
 		}
-		//handle mode manual
-		if (isKeyPressed(0)) {
-			setTimer(1, 10000);
-			status = MAN_YELLOW_RED;
-		}
-		break;
-	default:
-		break;
 	}
 
-
 }
+
+void fsm_AUTO_YELLOW_RED () {
+	set_amber0_red1();
+	led7seg_run();
+	status = AUTO_YELLOW_RED;
+	if (second < 3) {
+			SCH_Add_Task(fsm_AUTO_YELLOW_RED, 250, 0);
+			second++;
+	}
+	else {
+		second = 0;
+		minusCount();
+		setBuffer(count0, count1);
+		if (count0 == 0) {
+			SCH_Add_Task(fsm_AUTO_RED_GREEN, 250, 0);
+			count0 = RedTime();
+			count1 = GreenTime();
+			setBuffer(count0, count1);
+		}
+		else {
+			SCH_Add_Task(fsm_AUTO_YELLOW_RED, 250, 0);
+		}
+	}
+}
+
 
 
